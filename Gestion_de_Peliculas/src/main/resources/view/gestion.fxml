@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="dam.code.controller.PeliculaController"
+      spacing="15"
+      styleClass="root-container"
+      prefWidth="900" prefHeight="600">
+
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header">
+        <Label text="Gestión de Películas" styleClass="titulo"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cerrar Sesión"
+                onAction="#cerrarSesion"
+                styleClass="btn-danger"/>
+    </HBox>
+
+    <TableView fx:id="tablaPeliculas"
+               VBox.vgrow="ALWAYS"
+               styleClass="tabla">
+
+        <columns>
+            <TableColumn fx:id="colId" text="ID"/>
+            <TableColumn fx:id="colTitulo" text="Título"/>
+            <TableColumn fx:id="colDirector" text="Director"/>
+            <TableColumn fx:id="colDuracion" text="Duración (min)"/>
+            <TableColumn fx:id="colFechaPublicacion" text="Fecha Publicación"/>
+        </columns>
+
+        <placeholder>
+            <Label text="No hay películas registradas"/>
+        </placeholder>
+
+    </TableView>
+
+    <HBox spacing="10" styleClass="form-container" alignment="CENTER">
+        <TextField fx:id="txtId"
+                   promptText="ID (ej: ABC12)"
+                   prefWidth="120"/>
+        <TextField fx:id="txtTitulo"
+                   promptText="Título"
+                   prefWidth="160"/>
+        <TextField fx:id="txtDirector"
+                   promptText="Director"
+                   prefWidth="160"/>
+        <TextField fx:id="txtDuracion"
+                   promptText="Duración"
+                   prefWidth="80"/>
+        <TextField fx:id="txtFechaPublicacion"
+                   promptText="yyyy-MM-dd"
+                   prefWidth="110"/>
+        <Button text="Añadir"
+                onAction="#addPelicula"
+                styleClass="btn-primary"/>
+        <Button text="Eliminar"
+                onAction="#eliminarPelicula"
+                styleClass="btn-danger"/>
+    </HBox>
+
+</VBox>

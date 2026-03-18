@@ -3,8 +3,8 @@ package dam.code.model;
 import dam.code.dto.PeliculaDto;
 import javafx.beans.property.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-
 
 public class Pelicula {
 
@@ -22,32 +22,20 @@ public class Pelicula {
         this.fechaPublicacion = new SimpleObjectProperty<>(fechaPublicacion);
     }
 
-    public String getId() {return id.get();}
+    public String getId() { return id.get(); }
+    public String getTitulo() { return titulo.get(); }
+    public String getDirector() { return director.get(); }
+    public Integer getDuracion() { return duracion.get(); }
+    public LocalDate getFechaPublicacion() { return fechaPublicacion.get(); }
 
-    public String getTitulo() {return titulo.get();}
+    public StringProperty idProperty() { return id; }
+    public StringProperty tituloProperty() { return titulo; }
+    public StringProperty directorProperty() { return director; }
+    public IntegerProperty duracionProperty() { return duracion; }
+    public ObjectProperty<LocalDate> fechaPublicacionProperty() { return fechaPublicacion; }
 
-    public String getDirector() {return director.get();}
-
-    public Integer getDuracion() {return duracion.get();}
-
-    public LocalDate getFechaPublicacion() {return fechaPublicacion.get();}
-
-
-
-    public StringProperty IdProperty() {return id;}
-
-    public StringProperty TituloProperty() {return titulo;}
-
-    public StringProperty DirectorProperty() {return director;}
-
-    public IntegerProperty DuracionProperty() {return duracion;}
-
-    public ObjectProperty<LocalDate> FechaPublicacionProperty() {return fechaPublicacion;}
-
-    public void setTitulo(String titulo) {this.titulo.set(titulo);}
-
-    public void setFechaPublicacion(LocalDate fechaPublicacion) {this.fechaPublicacion.set(fechaPublicacion);}
-
+    public void setTitulo(String titulo) { this.titulo.set(titulo); }
+    public void setFechaPublicacion(LocalDate fechaPublicacion) { this.fechaPublicacion.set(fechaPublicacion); }
 
     public PeliculaDto toDto() {
         return new PeliculaDto(
@@ -65,8 +53,7 @@ public class Pelicula {
                 dto.getTitulo(),
                 dto.getDirector(),
                 dto.getDuracion(),
-                dto.getFecha_publicacion()
-
+                dto.getFechaPublicacion()
         );
     }
 }

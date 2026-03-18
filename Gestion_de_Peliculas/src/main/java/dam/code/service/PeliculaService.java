@@ -1,89 +1,92 @@
 package dam.code.service;
 
-import dam.code.dto.PeliculaDto;
 import dam.code.exceptions.PeliculaException;
 import dam.code.model.Pelicula;
 import dam.code.repository.PeliculaRepository;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PeliculaService {
 
-    private final ObservableList<Pelicula> peliculas;
-    private final PeliculaRepository repository;
-    private final Map<PeliculaDto, Integer> visualizaciones;
+    private final PeliculaRepository peliculaRepository;
+    private Runnable onCerrarSesion;
 
-    public PeliculaService (PeliculaRepository repository){
-        this.repository = repository;
-        visualizaciones = repository.cargar();
-        peliculas = FXCollections.observableArrayList(cargar());
+    public PeliculaService(PeliculaRepository peliculaRepository) {
+        this.peliculaRepository = peliculaRepository;
+    }
+
+    public void setOnCerrarSesion(Runnable onCerrarSesion) {
+        this.onCerrarSesion = onCerrarSesion;
     }
 
     public ObservableList<Pelicula> getPeliculas() {
-        return peliculas;
-    }
-
-    public ObservableList<Pelicula> cargar(){
-        List<Pelicula> listaPeliculas = new ArrayList<>();
-
-        if (!visualizaciones.isEmpty()) {
-            for (Map.Entry<PeliculaDto, Integer> entry : visualizaciones.entrySet()) {
-                listaPeliculas.add(Pelicula.fromDto(entry.getKey()));
-            }
-        }
-        return listaPeliculas;
+        return peliculaRepository.getPeliculas();
     }
 
     public void agregarPelicula(Pelicula pelicula) throws PeliculaException {
         validarPelicula(pelicula);
-        peliculas.add(pelicula);
-        visualizaciones.put(pelicula.toDto(), 0);
-        guardar();
+        peliculaRepository.agregar(pelicula);
     }
 
     public void eliminarPelicula(Pelicula pelicula) throws PeliculaException {
         if (pelicula == null) {
-            throw new PeliculaException("Debes selecionar una pelicula");
+            throw new PeliculaException("Debes seleccionar una película");
         }
-        peliculas.remove(pelicula);
-        guardar();
+        peliculaRepository.eliminar(pelicula);
     }
 
-    private void validarPelicula(Pelicula pelicula) {
+    public void actualizarTitulo(Pelicula pelicula, String nuevoTitulo) throws PeliculaException {
+        if (nuevoTitulo == null || nuevoTitulo.isBlank()) {
+            throw new PeliculaException("El título no puede estar vacío");
+        }
+        peliculaRepository.actualizarTitulo(pelicula, nuevoTitulo);
+    }
 
+    public void actualizarFechaPublicacion(Pelicula pelicula, LocalDate fecha) throws PeliculaException {
+        if (fecha == null) {
+            throw new PeliculaException("La fecha no puede ser nula");
+        }
+        if (fecha.isAfter(LocalDate.now())) {
+            throw new PeliculaException("La fecha de publicación no puede ser futura");
+        }
+        peliculaRepository.actualizarFechaPublicacion(pelicula, fecha);
+    }
+
+    public void agregarVisualizacion(Pelicula pelicula) throws PeliculaException {
+        if (pelicula == null) {
+            throw new PeliculaException("Debes seleccionar una película");
+        }
+        peliculaRepository.agregarVisualizacion(pelicula);
+    }
+
+    public void cerrarSesion() {
+        if (onCerrarSesion != null) {
+            onCerrarSesion.run();
+        }
+    }
+
+    private void validarPelicula(Pelicula pelicula) throws PeliculaException {
         if (pelicula.getId() == null || pelicula.getId().isBlank()) {
-            throw new PeliculaException("El ID es obligatorio");
+            throw new PeliculaException("El id no puede estar vacío");
+        }
+        if (!pelicula.getId().matches("[a-zA-Z]{3}\\d{2}")) {
+            throw new PeliculaException("El id debe tener 3 letras y 2 números");
         }
         if (pelicula.getTitulo() == null || pelicula.getTitulo().isBlank()) {
-            throw new PeliculaException("El Titulo es obligatorio");
+            throw new PeliculaException("El título no puede estar vacío");
         }
         if (pelicula.getDirector() == null || pelicula.getDirector().isBlank()) {
-            throw new PeliculaException("El Director es obligatorio");
+            throw new PeliculaException("El director no puede estar vacío");
         }
-        if (pelicula.getDuracion() <= 30) {
-            throw new PeliculaException("La duracion no puede ser menor que 30");
+        if (pelicula.getDuracion() == null || pelicula.getDuracion() < 30) {
+            throw new PeliculaException("La duración mínima de una película es 30 minutos");
+        }
+        if (pelicula.getFechaPublicacion() == null) {
+            throw new PeliculaException("La fecha de publicación no puede estar vacía");
         }
         if (pelicula.getFechaPublicacion().isAfter(LocalDate.now())) {
-            throw new PeliculaException("La fecha no puede ser superior a la de hoy");
-        }
-
-        boolean existe = peliculas.stream()
-                .anyMatch(pelicula1 -> pelicula1.getId().equals(pelicula.getId()));
-
-        if (existe) {
-            throw new PeliculaException("El pelicula ya existe");
+            throw new PeliculaException("La fecha de publicación no puede ser futura");
         }
     }
-
-    private void guardar() { repository.guardar(visualizaciones);}
-
-    public void actualizarTitulo(Pelicula pelicula, )
-
-
 }

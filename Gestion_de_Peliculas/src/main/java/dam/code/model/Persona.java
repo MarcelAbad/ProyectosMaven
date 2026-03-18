@@ -1,8 +1,11 @@
 package dam.code.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Persona {
+public class Persona  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String dni;
     private final String nombre;
@@ -16,19 +19,19 @@ public class Persona {
         this.email = email;
     }
 
-    public String getDni() {return dni;}
-
-    public String getNombre() {return nombre;}
-
-    public String getApellido() {return apellido;}
-
-    public String getEmail() {return email;}
+    public String getDni() { return dni; }
+    public String getNombre() { return nombre; }
+    public String getApellido() { return apellido; }
+    public String getEmail() { return email; }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Persona persona = (Persona) o;
-        return Objects.equals(dni, persona.dni) && Objects.equals(nombre, persona.nombre) && Objects.equals(apellido, persona.apellido) && Objects.equals(email, persona.email);
+        return Objects.equals(dni, persona.dni) &&
+                Objects.equals(nombre, persona.nombre) &&
+                Objects.equals(apellido, persona.apellido) &&
+                Objects.equals(email, persona.email);
     }
 
     @Override

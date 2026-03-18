@@ -18,15 +18,9 @@ public class PeliculaDto {
         this.fechaPublicacion = fechaPublicacion;
     }
 
-    public String getId() {return id;}
-
-    public String getTitulo() {return titulo;}
-
-    public String getDirector() {return director;}
-
-    public Integer getDuracion() {return duracion;}
-
-    public LocalDate getFecha_publicacion() {return fechaPublicacion;}
-
-
+    public String getId() { return id; }
+    public String getTitulo() { return titulo; }
+    public String getDirector() { return director; }
+    public Integer getDuracion() { return duracion; }
+    public LocalDate getFechaPublicacion() { return fechaPublicacion; }
 }

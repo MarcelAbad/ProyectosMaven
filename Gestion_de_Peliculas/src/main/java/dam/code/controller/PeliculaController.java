@@ -3,14 +3,10 @@ package dam.code.controller;
 import dam.code.exceptions.PeliculaException;
 import dam.code.model.Pelicula;
 import dam.code.service.PeliculaService;
-import dam.code.service.RegistroService;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
@@ -18,29 +14,21 @@ import java.time.format.DateTimeParseException;
 
 public class PeliculaController {
 
-    @FXML
-    private TableView<Pelicula> tablaPeliculas;
-    @FXML
-    private TableColumn<Pelicula, String> colId;
-    @FXML
-    private TableColumn<Pelicula, String> colTitulo;
-    @FXML
-    private TableColumn<Pelicula, String> colDirector;
-    @FXML
-    private TableColumn<Pelicula, Integer> colDuracion;
-    @FXML
-    private TableColumn<Pelicula, LocalDate> colFechaPublicacion;
+    // campos declarados correctamente
+    private PeliculaService peliculaService;
 
-    @FXML
-    private TextField txtId;
-    @FXML
-    private TextField txtTitulo;
-    @FXML
-    private TextField txtDirector;
-    @FXML
-    private TextField txtDuracion;
-    @FXML
-    private TextField txtFechaPublicacion;
+    @FXML private TableView<Pelicula> tablaPeliculas;
+    @FXML private TableColumn<Pelicula, String> colId;
+    @FXML private TableColumn<Pelicula, String> colTitulo;
+    @FXML private TableColumn<Pelicula, String> colDirector;
+    @FXML private TableColumn<Pelicula, Integer> colDuracion;
+    @FXML private TableColumn<Pelicula, LocalDate> colFechaPublicacion;
+
+    @FXML private TextField txtId;
+    @FXML private TextField txtTitulo;
+    @FXML private TextField txtDirector;
+    @FXML private TextField txtDuracion;
+    @FXML private TextField txtFechaPublicacion;
 
     public void setPeliculaService(PeliculaService peliculaService) {
         this.peliculaService = peliculaService;
@@ -55,15 +43,14 @@ public class PeliculaController {
         colTitulo.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         colDirector.setCellValueFactory(cellData -> cellData.getValue().directorProperty());
         colDuracion.setCellValueFactory(cellData -> cellData.getValue().duracionProperty().asObject());
-        colFechaPublicacion.setCellValueFactory(cellData -> cellData.getValue().fehaPublicaionProperty());
+        colFechaPublicacion.setCellValueFactory(cellData -> cellData.getValue().fechaPublicacionProperty());
 
         tablaPeliculas.setEditable(true);
 
-        //editar nombre y fecha
-
-        colTitulo.setCellValueFactory(TextFieldTableCell.forTableColumn(new StringConverter()));
+        // setCellFactory corregido + DefaultStringConverter en lugar de StringConverter abstracto
+        colTitulo.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
         colTitulo.setOnEditCommit(event -> {
-            Pelicula pelicula = (Pelicula) event.getRowValue();
+            Pelicula pelicula = event.getRowValue();
             String nuevoTitulo = event.getNewValue();
             try {
                 peliculaService.actualizarTitulo(pelicula, nuevoTitulo);
@@ -82,11 +69,34 @@ public class PeliculaController {
                 mostrarError(e.getMessage());
             }
         });
+
+        // doble clic para añadir visualización
+        tablaPeliculas.setRowFactory(tv -> {
+            TableRow<Pelicula> fila = new TableRow<>();
+            fila.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !fila.isEmpty()) {
+                    Pelicula pelicula = fila.getItem();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Visualización");
+                    alert.setHeaderText("Añadir visualización");
+                    alert.setContentText("¿Deseas añadir una visualización a: " + pelicula.getTitulo() + "?");
+                    alert.showAndWait().ifPresent(respuesta -> {
+                        if (respuesta == ButtonType.OK) {
+                            try {
+                                peliculaService.agregarVisualizacion(pelicula);
+                            } catch (PeliculaException e) {
+                                mostrarError(e.getMessage());
+                            }
+                        }
+                    });
+                }
+            });
+            return fila;
+        });
     }
 
     private void prefWidthColumns() {
         tablaPeliculas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-
         colId.prefWidthProperty().bind(tablaPeliculas.widthProperty().multiply(0.2));
         colTitulo.prefWidthProperty().bind(tablaPeliculas.widthProperty().multiply(0.2));
         colDirector.prefWidthProperty().bind(tablaPeliculas.widthProperty().multiply(0.2));
@@ -104,15 +114,30 @@ public class PeliculaController {
                     Integer.parseInt(txtDuracion.getText()),
                     LocalDate.parse(txtFechaPublicacion.getText())
             );
-
             peliculaService.agregarPelicula(pelicula);
             limpiarCampos();
-
         } catch (NumberFormatException e) {
-            mostrarError("Precio y Stock deben ser numeros validos");
+            mostrarError("La duración debe ser un número válido");
         } catch (PeliculaException | DateTimeParseException e) {
             mostrarError(e.getMessage());
         }
+    }
+
+    @FXML
+    private void eliminarPelicula() {
+        Pelicula seleccionada = tablaPeliculas.getSelectionModel().getSelectedItem();
+        if (seleccionada != null) {
+            try {
+                peliculaService.eliminarPelicula(seleccionada);
+            } catch (PeliculaException e) {
+                mostrarError(e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void cerrarSesion() {
+        peliculaService.cerrarSesion();
     }
 
     private void mostrarError(String mensaje) {
@@ -129,19 +154,5 @@ public class PeliculaController {
         txtDirector.clear();
         txtDuracion.clear();
         txtFechaPublicacion.clear();
-    }
-
-    @FXML
-    private void eliminarPelicula() {
-
-        Pelicula seleccionada = tablaPeliculas.getSelectionModel().getSelectedItem();
-
-        if (seleccionada != null) {
-            try{
-                peliculaService.eliminarPelicula(seleccionada);
-            } catch (PeliculaException e) {
-                mostrarError(e.getMessage());
-            }
-        }
     }
 }
