@@ -36,6 +36,7 @@ public class LibroService {
                 listaLibros.add(Libro.fromDTO(entry.getKey()));
             }
         }
+        return listaLibros;
     }
     public void agregarLibro(Libro libro) throws LibroException {
         validarLibro(libro);

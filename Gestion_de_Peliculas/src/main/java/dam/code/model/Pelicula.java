@@ -3,6 +3,7 @@ package dam.code.model;
 import dam.code.dto.PeliculaDto;
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
 
 
 public class Pelicula {
@@ -10,15 +11,15 @@ public class Pelicula {
     private final StringProperty id;
     private final StringProperty titulo;
     private final StringProperty director;
-    private final DoubleProperty duracion;
-    private final StringProperty fecha_publicacion;
+    private final IntegerProperty duracion;
+    private final ObjectProperty<LocalDate> fechaPublicacion;
 
-    public Pelicula(String id, String titulo, String director, Double duracion, String fecha_publicacion) {
+    public Pelicula(String id, String titulo, String director, Integer duracion, LocalDate fechaPublicacion) {
         this.id = new SimpleStringProperty(id);
         this.titulo = new SimpleStringProperty(titulo);
         this.director = new SimpleStringProperty(director);
-        this.duracion = new SimpleDoubleProperty(duracion);
-        this.fecha_publicacion = new SimpleStringProperty(fecha_publicacion);
+        this.duracion = new SimpleIntegerProperty(duracion);
+        this.fechaPublicacion = new SimpleObjectProperty<>(fechaPublicacion);
     }
 
     public String getId() {return id.get();}
@@ -27,9 +28,9 @@ public class Pelicula {
 
     public String getDirector() {return director.get();}
 
-    public Double getDuracion() {return duracion.get();}
+    public Integer getDuracion() {return duracion.get();}
 
-    public String getFecha_publicacion() {return fecha_publicacion.get();}
+    public LocalDate getFechaPublicacion() {return fechaPublicacion.get();}
 
 
 
@@ -39,14 +40,13 @@ public class Pelicula {
 
     public StringProperty DirectorProperty() {return director;}
 
-    public DoubleProperty DuracionProperty() {return duracion;}
+    public IntegerProperty DuracionProperty() {return duracion;}
 
-    public StringProperty FechaPublicacionProperty() {return fecha_publicacion;}
-
+    public ObjectProperty<LocalDate> FechaPublicacionProperty() {return fechaPublicacion;}
 
     public void setTitulo(String titulo) {this.titulo.set(titulo);}
 
-    public void setFecha_publicacion(String fecha_publicacion) {this.fecha_publicacion.set(fecha_publicacion);}
+    public void setFechaPublicacion(LocalDate fechaPublicacion) {this.fechaPublicacion.set(fechaPublicacion);}
 
 
     public PeliculaDto toDto() {
@@ -55,7 +55,7 @@ public class Pelicula {
                 getTitulo(),
                 getDirector(),
                 getDuracion(),
-                getFecha_publicacion()
+                getFechaPublicacion()
         );
     }
 

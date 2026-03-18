@@ -1,19 +1,21 @@
 package dam.code.dto;
 
+import java.time.LocalDate;
+
 public class PeliculaDto {
 
     private String id;
     private String titulo;
     private String director;
-    private Double duracion;
-    private String fecha_publicacion;
+    private Integer duracion;
+    private LocalDate fechaPublicacion;
 
-    public PeliculaDto(String id, String titulo, String director, Double duracion, String fecha_publicacion) {
+    public PeliculaDto(String id, String titulo, String director, Integer duracion, LocalDate fechaPublicacion) {
         this.id = id;
         this.titulo = titulo;
         this.director = director;
         this.duracion = duracion;
-        this.fecha_publicacion = fecha_publicacion;
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public String getId() {return id;}
@@ -22,7 +24,9 @@ public class PeliculaDto {
 
     public String getDirector() {return director;}
 
-    public Double getDuracion() {return duracion;}
+    public Integer getDuracion() {return duracion;}
 
-    public String getFecha_publicacion() {return fecha_publicacion;}
+    public LocalDate getFecha_publicacion() {return fechaPublicacion;}
+
+
 }

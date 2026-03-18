@@ -1,48 +1,38 @@
 package dam.code.model;
 
-import dam.code.dto.PersonaDto;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import java.util.Objects;
 
 public class Persona {
 
-    private final StringProperty dni;
-    private final StringProperty nombre;
-    private final StringProperty apellido;
-    private final StringProperty email;
+    private final String dni;
+    private final String nombre;
+    private final String apellido;
+    private final String email;
 
     public Persona(String dni, String nombre, String apellido, String email) {
-        this.dni = new SimpleStringProperty(dni);
-        this.nombre = new SimpleStringProperty(nombre);
-        this.apellido = new SimpleStringProperty(apellido);
-        this.email = new SimpleStringProperty(email);
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
     }
 
-    public StringProperty getDni() {return dni;}
+    public String getDni() {return dni;}
 
-    public StringProperty getNombre() {return nombre;}
+    public String getNombre() {return nombre;}
 
-    public StringProperty getApellido() {return apellido;}
+    public String getApellido() {return apellido;}
 
-    public StringProperty getEmail() {return email;}
+    public String getEmail() {return email;}
 
-    public PersonaDto toDto() {
-        return new PersonaDto(
-                getDni(),
-                getNombre(),
-                getApellido(),
-                getEmail()
-        );
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Persona persona = (Persona) o;
+        return Objects.equals(dni, persona.dni) && Objects.equals(nombre, persona.nombre) && Objects.equals(apellido, persona.apellido) && Objects.equals(email, persona.email);
     }
 
-    public static Persona fromDto(PersonaDto dto){
-        return new Persona(
-                dto.getDni(),
-                dto.getNombre(),
-                dto.getApellido(),
-                dto.getEmail()
-        );
+    @Override
+    public int hashCode() {
+        return Objects.hash(dni, nombre, apellido, email);
     }
 }
