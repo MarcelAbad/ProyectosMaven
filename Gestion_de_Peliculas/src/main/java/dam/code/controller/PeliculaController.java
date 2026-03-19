@@ -14,7 +14,7 @@ import java.time.format.DateTimeParseException;
 
 public class PeliculaController {
 
-    // campos declarados correctamente
+
     private PeliculaService peliculaService;
 
     @FXML private TableView<Pelicula> tablaPeliculas;
@@ -47,7 +47,7 @@ public class PeliculaController {
 
         tablaPeliculas.setEditable(true);
 
-        // setCellFactory corregido + DefaultStringConverter en lugar de StringConverter abstracto
+
         colTitulo.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
         colTitulo.setOnEditCommit(event -> {
             Pelicula pelicula = event.getRowValue();
@@ -70,16 +70,16 @@ public class PeliculaController {
             }
         });
 
-        // doble clic para añadir visualización
+
         tablaPeliculas.setRowFactory(tv -> {
             TableRow<Pelicula> fila = new TableRow<>();
             fila.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !fila.isEmpty()) {
                     Pelicula pelicula = fila.getItem();
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Visualización");
-                    alert.setHeaderText("Añadir visualización");
-                    alert.setContentText("¿Deseas añadir una visualización a: " + pelicula.getTitulo() + "?");
+                    alert.setTitle("Visualizacion");
+                    alert.setHeaderText("Añadir visualizacion");
+                    alert.setContentText("¿Deseas añadir una visualizacion a: " + pelicula.getTitulo() + "?");
                     alert.showAndWait().ifPresent(respuesta -> {
                         if (respuesta == ButtonType.OK) {
                             try {
@@ -108,7 +108,7 @@ public class PeliculaController {
     private void addPelicula() {
         try {
             Pelicula pelicula = new Pelicula(
-                    txtId.getText(),
+                    txtId.getText().toUpperCase(),
                     txtTitulo.getText(),
                     txtDirector.getText(),
                     Integer.parseInt(txtDuracion.getText()),
@@ -117,7 +117,7 @@ public class PeliculaController {
             peliculaService.agregarPelicula(pelicula);
             limpiarCampos();
         } catch (NumberFormatException e) {
-            mostrarError("La duración debe ser un número válido");
+            mostrarError("La duracion debe ser un numero valido");
         } catch (PeliculaException | DateTimeParseException e) {
             mostrarError(e.getMessage());
         }

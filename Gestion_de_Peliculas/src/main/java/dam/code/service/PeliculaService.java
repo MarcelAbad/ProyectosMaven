@@ -48,14 +48,14 @@ public class PeliculaService {
             throw new PeliculaException("La fecha no puede ser nula");
         }
         if (fecha.isAfter(LocalDate.now())) {
-            throw new PeliculaException("La fecha de publicación no puede ser futura");
+            throw new PeliculaException("La fecha de publicacion no puede ser futura");
         }
         peliculaRepository.actualizarFechaPublicacion(pelicula, fecha);
     }
 
     public void agregarVisualizacion(Pelicula pelicula) throws PeliculaException {
         if (pelicula == null) {
-            throw new PeliculaException("Debes seleccionar una película");
+            throw new PeliculaException("Debes seleccionar una pelicula");
         }
         peliculaRepository.agregarVisualizacion(pelicula);
     }

@@ -2,8 +2,6 @@ package dam.code.model;
 
 import dam.code.dto.PeliculaDto;
 import javafx.beans.property.*;
-
-import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Pelicula {

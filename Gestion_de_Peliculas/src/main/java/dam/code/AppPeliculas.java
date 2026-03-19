@@ -27,11 +27,11 @@ public class AppPeliculas extends Application {
         this.jsonManager = new JsonManager();
         this.registroService = new RegistroService(new RegistroDAO());
 
-        stage.setTitle("Gestión de Películas");
+        stage.setTitle("Gestion de Películas");
         stage.setResizable(false);
 
         if (registroService.existenUsuarios()) {
-            mostrarLogin();
+            mostrarInicio();
         } else {
             mostrarRegistro();
         }
@@ -47,8 +47,8 @@ public class AppPeliculas extends Application {
 
             RegistroController controller = loader.getController();
             controller.setRegistroService(registroService);
-            controller.setOnRegistroExitoso(this::mostrarLogin);
-            controller.setOnIrALogin(this::mostrarLogin);
+            controller.setOnRegistroExitoso(this::mostrarInicio);
+            controller.setIrIncio(this::mostrarInicio);
 
             stage.setScene(scene);
 
@@ -57,7 +57,7 @@ public class AppPeliculas extends Application {
         }
     }
 
-    private void mostrarLogin() {
+    private void mostrarInicio() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/inicio.fxml"));
             Scene scene = new Scene(loader.load());
@@ -65,8 +65,8 @@ public class AppPeliculas extends Application {
 
             InicioController controller = loader.getController();
             controller.setRegistroService(registroService);
-            controller.setOnLoginExitoso(this::mostrarGestion);
-            controller.setOnIrARegistro(this::mostrarRegistro);
+            controller.setInicioExitoso(this::mostrarGestion);
+            controller.setIrRegistro(this::mostrarRegistro);
 
             stage.setScene(scene);
 
@@ -87,7 +87,7 @@ public class AppPeliculas extends Application {
 
             peliculaService.setOnCerrarSesion(() -> {
                 registroService.cerrarSesion();
-                mostrarLogin();
+                mostrarInicio();
             });
 
             PeliculaController controller = loader.getController();

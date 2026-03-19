@@ -5,22 +5,23 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      stylesheets="/styles/styles.css"
       fx:controller="dam.code.controller.PeliculaController"
       spacing="15"
-      styleClass="root-container"
+      styleClass="root"
       prefWidth="900" prefHeight="600">
 
     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header">
-        <Label text="Gestión de Películas" styleClass="titulo"/>
+        <Label text="Gestión de Películas" styleClass="title"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Button text="Cerrar Sesión"
                 onAction="#cerrarSesion"
-                styleClass="btn-danger"/>
+                styleClass="button-danger"/>
     </HBox>
 
     <TableView fx:id="tablaPeliculas"
                VBox.vgrow="ALWAYS"
-               styleClass="tabla">
+               styleClass="table">
 
         <columns>
             <TableColumn fx:id="colId" text="ID"/>
@@ -36,7 +37,7 @@
 
     </TableView>
 
-    <HBox spacing="10" styleClass="form-container" alignment="CENTER">
+    <HBox spacing="10" styleClass="hbox" alignment="CENTER">
         <TextField fx:id="txtId"
                    promptText="ID (ej: ABC12)"
                    prefWidth="120"/>
@@ -54,10 +55,10 @@
                    prefWidth="110"/>
         <Button text="Añadir"
                 onAction="#addPelicula"
-                styleClass="btn-primary"/>
+                styleClass="button"/>
         <Button text="Eliminar"
                 onAction="#eliminarPelicula"
-                styleClass="btn-danger"/>
+                styleClass="button-danger"/>
     </HBox>
 
 </VBox>

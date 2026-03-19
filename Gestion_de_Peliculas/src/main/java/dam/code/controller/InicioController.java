@@ -10,8 +10,8 @@ import javafx.scene.control.TextField;
 public class InicioController {
 
     private RegistroService registroService;
-    private Runnable onLoginExitoso;
-    private Runnable onIrARegistro;
+    private Runnable InicioExitoso;
+    private Runnable irRegistro;
 
     @FXML private TextField txtDni;
     @FXML private PasswordField txtContrasena;
@@ -20,23 +20,23 @@ public class InicioController {
         this.registroService = registroService;
     }
 
-    public void setOnLoginExitoso(Runnable onLoginExitoso) {
-        this.onLoginExitoso = onLoginExitoso;
+    public void setInicioExitoso(Runnable InicioExitoso) {
+        this.InicioExitoso = InicioExitoso;
     }
 
-    public void setOnIrARegistro(Runnable onIrARegistro) {
-        this.onIrARegistro = onIrARegistro;
+    public void setIrRegistro(Runnable irRegistro) {
+        this.irRegistro = irRegistro;
     }
 
     @FXML
     private void iniciarSesion() {
-        String dni = txtDni.getText();
+        String dni = txtDni.getText().toUpperCase();
         String contrasena = txtContrasena.getText();
 
         try {
             registroService.iniciarSesion(dni, contrasena);
-            if (onLoginExitoso != null) {
-                onLoginExitoso.run();
+            if (InicioExitoso != null) {
+                InicioExitoso.run();
             }
         } catch (PersonaException e) {
             mostrarError(e.getMessage());
@@ -44,9 +44,9 @@ public class InicioController {
     }
 
     @FXML
-    private void irARegistro() {
-        if (onIrARegistro != null) {
-            onIrARegistro.run();
+    private void irRegistro() {
+        if (irRegistro != null) {
+            irRegistro.run();
         }
     }
 

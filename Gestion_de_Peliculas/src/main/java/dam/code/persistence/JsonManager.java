@@ -18,7 +18,7 @@ public class JsonManager {
     private final Gson gson;
 
     public JsonManager() {
-        // adaptador para LocalDate porque Gson no lo serializa por defecto
+
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>)
                         (src, typeOfSrc, context) -> new JsonPrimitive(src.toString()))

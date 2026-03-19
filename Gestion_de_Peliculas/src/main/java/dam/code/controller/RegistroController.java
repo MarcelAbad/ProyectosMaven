@@ -12,7 +12,7 @@ public class RegistroController {
 
     private RegistroService registroService;
     private Runnable onRegistroExitoso;
-    private Runnable onIrALogin;
+    private Runnable irInicio;
 
     @FXML private TextField txtDni;
     @FXML private TextField txtNombre;
@@ -28,15 +28,13 @@ public class RegistroController {
         this.onRegistroExitoso = onRegistroExitoso;
     }
 
-    public void setOnIrALogin(Runnable onIrALogin) {
-        this.onIrALogin = onIrALogin;
-    }
+    public void setIrIncio(Runnable irInicio) {this.irInicio = irInicio;}
 
     @FXML
     private void registrar() {
         try {
             Persona persona = new Persona(
-                    txtDni.getText(),
+                    txtDni.getText().toUpperCase(),
                     txtNombre.getText(),
                     txtApellido.getText(),
                     txtEmail.getText()
@@ -56,9 +54,9 @@ public class RegistroController {
     }
 
     @FXML
-    private void irALogin() {
-        if (onIrALogin != null) {
-            onIrALogin.run();
+    private void irInicio() {
+        if (irInicio != null) {
+            irInicio.run();
         }
     }
 

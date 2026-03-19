@@ -73,26 +73,26 @@ public class RegistroService {
         if (persona.getDni() == null || persona.getDni().isBlank()) {
             throw new PersonaException("El DNI no puede estar vacío");
         }
-        if (!persona.getDni().matches("\\d{8}[a-zA-Z]")) {
-            throw new PersonaException("El DNI debe tener 8 números y 1 letra");
+        if (!persona.getDni().matches("\\d{8}[A-Z]")) {
+            throw new PersonaException("El DNI debe tener 8 numeros y 1 letra");
         }
         if (persona.getNombre() == null || persona.getNombre().isBlank()) {
-            throw new PersonaException("El nombre no puede estar vacío");
+            throw new PersonaException("El nombre no puede estar vacio");
         }
         if (persona.getApellido() == null || persona.getApellido().isBlank()) {
-            throw new PersonaException("El apellido no puede estar vacío");
+            throw new PersonaException("El apellido no puede estar vacio");
         }
         if (persona.getEmail() == null || persona.getEmail().isBlank()) {
-            throw new PersonaException("El email no puede estar vacío");
+            throw new PersonaException("El email no puede estar vacio");
         }
-        if (!persona.getEmail().matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            throw new PersonaException("El email no tiene un formato válido");
+        if (!persona.getEmail().matches(".*[@.].*")) {
+            throw new PersonaException("El email no tiene un formato valido");
         }
     }
 
     private void validarContrasena(String contrasena) throws PersonaException {
         if (contrasena == null || contrasena.isBlank()) {
-            throw new PersonaException("La contraseña no puede estar vacía");
+            throw new PersonaException("La contraseña no puede estar vacia");
         }
         if (contrasena.length() < 6) {
             throw new PersonaException("La contraseña debe tener al menos 6 caracteres");

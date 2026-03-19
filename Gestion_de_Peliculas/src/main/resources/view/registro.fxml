@@ -5,15 +5,16 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      stylesheets="/styles/styles.css"
       fx:controller="dam.code.controller.RegistroController"
       spacing="15"
       alignment="CENTER"
       styleClass="root-container"
       prefWidth="400" prefHeight="500">
 
-    <Label text="Registro de Usuario" styleClass="titulo"/>
+    <Label text="Registro de Usuario" styleClass="title2"/>
 
-    <VBox spacing="8" styleClass="form-container">
+    <VBox spacing="8" styleClass="hbox">
 
         <Label text="DNI (8 números y 1 letra)"/>
         <TextField fx:id="txtDni" promptText="12345678A"/>
@@ -32,14 +33,14 @@
 
     </VBox>
 
-    <VBox spacing="8" styleClass="form-container">
+    <VBox spacing="8" styleClass="hbox">
         <Button text="Registrarse"
                 onAction="#registrar"
-                styleClass="btn-primary"
+                styleClass="button"
                 maxWidth="Infinity"/>
 
         <Button text="¿Ya tienes cuenta? Inicia sesión"
-                onAction="#irALogin"
+                onAction="#irInicio"
                 styleClass="btn-secondary"
                 maxWidth="Infinity"/>
     </VBox>
