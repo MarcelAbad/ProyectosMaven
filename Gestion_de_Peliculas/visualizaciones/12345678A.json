@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ASD12",
+    "titulo": "AS",
+    "director": "ASD",
+    "duracion": 30,
+    "fechaPublicacion": "2026-02-02"
+  },
+  {
+    "id": "QWE45",
+    "titulo": "as",
+    "director": "asfd",
+    "duracion": 90,
+    "fechaPublicacion": "2003-12-12"
+  }
+]
