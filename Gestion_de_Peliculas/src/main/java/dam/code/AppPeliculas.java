@@ -15,12 +15,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Clase principal de la aplicacion. Gestiona la navegacion entre pantallas.
+ * Decide si mostrar el registro o el inicio segun si ya hay usuarios.
+ * @author Marcel Abad
+ * @version 1.0
+ */
 public class AppPeliculas extends Application {
 
     private Stage stage;
     private RegistroService registroService;
     private JsonManager jsonManager;
 
+    /**
+     * Punto de entrada de JavaFX. Inicializa los servicios y muestra la primera pantalla.
+     * @param stage ventana principal de la aplicacion
+     */
     @Override
     public void start(Stage stage) {
         this.stage = stage;
@@ -39,6 +49,9 @@ public class AppPeliculas extends Application {
         stage.show();
     }
 
+    /**
+     * Carga y muestra la pantalla de registro de usuarios.
+     */
     private void mostrarRegistro() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registro.fxml"));
@@ -57,6 +70,9 @@ public class AppPeliculas extends Application {
         }
     }
 
+    /**
+     * Carga y muestra la pantalla de inicio de sesion.
+     */
     private void mostrarInicio() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/inicio.fxml"));
@@ -75,6 +91,10 @@ public class AppPeliculas extends Application {
         }
     }
 
+    /**
+     * Carga y muestra la pantalla principal de gestion de peliculas.
+     * Crea el repositorio y servicio con el usuario que ha iniciado sesion.
+     */
     private void mostrarGestion() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/gestion.fxml"));
@@ -100,6 +120,10 @@ public class AppPeliculas extends Application {
         }
     }
 
+    /**
+     * Muestra una alerta de error grave y cierra la aplicacion.
+     * @param mensaje descripcion del error
+     */
     private void mostrarErrorFatal(String mensaje) {
         javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
                 javafx.scene.control.Alert.AlertType.ERROR
@@ -111,6 +135,10 @@ public class AppPeliculas extends Application {
         stage.close();
     }
 
+    /**
+     * Metodo main que lanza la aplicacion JavaFX.
+     * @param args argumentos de la linea de comandos
+     */
     public static void main(String[] args) {
         launch(args);
     }

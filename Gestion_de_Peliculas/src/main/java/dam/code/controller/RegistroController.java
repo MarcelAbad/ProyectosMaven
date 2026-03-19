@@ -8,6 +8,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * Controlador de la pantalla de registro de usuarios.
+ * Gestiona el formulario de registro y la navegacion al inicio.
+ * @author Marcel Abad
+ * @version 1.0
+ */
 public class RegistroController {
 
     private RegistroService registroService;
@@ -20,16 +26,32 @@ public class RegistroController {
     @FXML private TextField txtEmail;
     @FXML private PasswordField txtContrasena;
 
+    /**
+     * Asigna el servicio de registro al controlador.
+     * @param registroService servicio a usar
+     */
     public void setRegistroService(RegistroService registroService) {
         this.registroService = registroService;
     }
 
+    /**
+     * Asigna la accion a ejecutar cuando el registro es exitoso.
+     * @param onRegistroExitoso accion a ejecutar
+     */
     public void setOnRegistroExitoso(Runnable onRegistroExitoso) {
         this.onRegistroExitoso = onRegistroExitoso;
     }
 
-    public void setIrIncio(Runnable irInicio) {this.irInicio = irInicio;}
+    /**
+     * Asigna la accion para navegar a la pantalla de inicio.
+     * @param irInicio accion a ejecutar
+     */
+    public void setIrIncio(Runnable irInicio) { this.irInicio = irInicio; }
 
+    /**
+     * Lee los campos del formulario, crea una Persona y la registra.
+     * Muestra un mensaje de exito o error segun el resultado.
+     */
     @FXML
     private void registrar() {
         try {
@@ -53,6 +75,9 @@ public class RegistroController {
         }
     }
 
+    /**
+     * Navega a la pantalla de inicio si la accion esta definida.
+     */
     @FXML
     private void irInicio() {
         if (irInicio != null) {
@@ -60,6 +85,10 @@ public class RegistroController {
         }
     }
 
+    /**
+     * Muestra una alerta de error con el mensaje indicado.
+     * @param mensaje texto a mostrar en la alerta
+     */
     private void mostrarError(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Error");
@@ -68,6 +97,10 @@ public class RegistroController {
         alerta.showAndWait();
     }
 
+    /**
+     * Muestra una alerta informativa con el mensaje indicado.
+     * @param mensaje texto a mostrar en la alerta
+     */
     private void mostrarInfo(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Registro");
@@ -76,6 +109,9 @@ public class RegistroController {
         alerta.showAndWait();
     }
 
+    /**
+     * Vacia todos los campos del formulario.
+     */
     private void limpiarCampos() {
         txtDni.clear();
         txtNombre.clear();
